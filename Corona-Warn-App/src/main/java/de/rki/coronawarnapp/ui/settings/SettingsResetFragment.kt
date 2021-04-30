@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
@@ -41,6 +42,10 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
                 is SettingsEvents.GoBack -> (activity as MainActivity).goBack()
                 is SettingsEvents.GoToOnboarding -> navigateToOnboarding()
             }
+        }
+        vm.appResetRequestEvent.observe2(this) {
+            val msg = if (it) "App will reset shortly" else "App reset was not possible"
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
         }
     }
 
